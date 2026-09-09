@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MiniaturaCuadricula from '../componentes/comunes/MiniaturaCuadricula';
@@ -12,7 +12,6 @@ import { usePublicaciones } from '../contexto/ContextoPublicaciones';
 import type { Publicacion } from '../tipos';
 
 const COLUMNAS = 3;
-const LADO_CELDA = ladoCeldaCuadricula(COLUMNAS);
 
 /**
  * Pestaña Explorar: buscador por usuario o etiqueta y mosaico de 3 columnas
@@ -21,10 +20,12 @@ const LADO_CELDA = ladoCeldaCuadricula(COLUMNAS);
 export default function PantallaBuscar() {
   const navegacion = useNavigation();
   const { publicaciones, cargando } = usePublicaciones();
+  const { width } = useWindowDimensions();
 
   // Estado LOCAL: el texto tipeado sólo lo necesita esta pantalla.
   const [busqueda, setBusqueda] = useState('');
 
+  const ladoCelda = useMemo(() => ladoCeldaCuadricula(width, COLUMNAS), [width]);
   /**
    * El filtrado se memoiza para no recorrer la lista completa en cada
    * re-render, sólo cuando cambia el texto o llegan publicaciones nuevas.
@@ -45,14 +46,14 @@ export default function PantallaBuscar() {
     ({ item, index }: { item: Publicacion; index: number }) => (
       <MiniaturaCuadricula
         uri={item.imagen}
-        lado={LADO_CELDA}
+        lado={ladoCelda}
         // Cada cuarta celda muestra el ícono de carrusel, como en Explorar.
         esCarrusel={index % 4 === 1}
         etiquetaAccesible={`Publicación de ${item.autor.nombreUsuario}`}
         onPress={() => navegacion.navigate('DetallePublicacion', { idPublicacion: item.id })}
       />
     ),
-    [navegacion],
+    [navegacion, ladoCelda],
   );
 
   return (

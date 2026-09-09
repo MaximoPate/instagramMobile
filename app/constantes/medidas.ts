@@ -42,6 +42,10 @@ export const tipografia = {
  * descontando las separaciones internas. Evita el desbordamiento
  * horizontal cuando la división no da un entero.
  */
-export function ladoCeldaCuadricula(columnas: number, separacion = medidas.separacionCuadricula) {
-  return (anchoPantalla - separacion * (columnas - 1)) / columnas;
+export function ladoCeldaCuadricula(
+  anchoDisponible: number,
+  columnas: number,
+  separacion = medidas.separacionCuadricula,
+) {
+  return (anchoDisponible - separacion * (columnas - 1)) / columnas;
 }

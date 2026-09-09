@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MiniaturaCuadricula from '../componentes/comunes/MiniaturaCuadricula';
@@ -16,9 +16,9 @@ import { usePublicaciones } from '../contexto/ContextoPublicaciones';
 import { perfilPropio } from '../datos/perfilPropio';
 import type { Publicacion } from '../tipos';
 
+
 /** La consigna pide exactamente 3 columnas simétricas. */
 const COLUMNAS = 3;
-const LADO_CELDA = ladoCeldaCuadricula(COLUMNAS);
 
 /**
  * Perfil emulado del usuario activo.
@@ -31,9 +31,13 @@ const LADO_CELDA = ladoCeldaCuadricula(COLUMNAS);
 export default function PantallaPerfil() {
   const navegacion = useNavigation();
   const { publicaciones, cargando } = usePublicaciones();
+  const { width } = useWindowDimensions(); 
+
 
   // Estado LOCAL: qué solapa del portafolio se está mirando.
   const [pestanaActiva, setPestanaActiva] = useState<PestanaPerfil>('publicaciones');
+
+  const ladoCelda = useMemo(() => ladoCeldaCuadricula(width, COLUMNAS), [width]);
 
   /**
    * Cada solapa muestra un recorte distinto del mismo set de publicaciones:
@@ -49,14 +53,14 @@ export default function PantallaPerfil() {
     ({ item, index }: { item: Publicacion; index: number }) => (
       <MiniaturaCuadricula
         uri={item.imagen}
-        lado={LADO_CELDA}
+        lado={ladoCelda}
         esReel={pestanaActiva === 'reels'}
         esCarrusel={pestanaActiva !== 'reels' && index % 5 === 2}
         etiquetaAccesible={`Publicación de ${item.autor.nombreUsuario}`}
         onPress={() => navegacion.navigate('DetallePublicacion', { idPublicacion: item.id })}
       />
     ),
-    [navegacion, pestanaActiva],
+    [navegacion, pestanaActiva, ladoCelda],
   );
 
   return (
