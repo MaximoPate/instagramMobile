@@ -1,47 +1,47 @@
 {
   "expo": {
-    "name": "tp9-efsi-patejim_feldman",
+    "name": "Instagram",
     "slug": "tp9-efsi-patejim_feldman",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "tp9efsipatejimfeldman",
-    "userInterfaceStyle": "automatic",
+    "scheme": "instagramclon",
+    "icon": "./assets/imagenes/icono.png",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
-      },
+      "package": "com.anonymous.tp9efsipatejim_feldman",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.tp9efsipatejim_feldman"
+      "adaptiveIcon": {
+        "backgroundImage": "./assets/imagenes/android-icono-fondo.png",
+        "foregroundImage": "./assets/imagenes/android-icono-frente.png",
+        "monochromeImage": "./assets/imagenes/android-icono-monocromo.png"
+      }
     },
     "web": {
       "output": "single",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/imagenes/favicon.png"
     },
     "plugins": [
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "image": "./assets/imagenes/splash.png",
+          "imageWidth": 180,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#FFFFFF",
           "dark": {
+            "image": "./assets/imagenes/splash.png",
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
-      "typedRoutes": true,
       "reactCompiler": true
     }
   }
